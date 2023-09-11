@@ -1,0 +1,20 @@
+#!/bin/bash
+
+: "${GIT_ENV_FILE:=.env.git}"
+
+function loadenv() {
+    if [[ -f "${GIT_ENV_FILE}" ]];
+    then
+        source "${GIT_ENV_FILE}"
+    fi
+}
+
+loadenv
+
+# Set name and email for project
+git config --local user.name "${GIT_LOCAL_NAME}" && \
+		git config --local user.email "${GIT_LOCAL_EMAIL}"
+
+# Use specific ssh key file for "git push" command
+# It will be usfull if you have multiple GitHub accounts
+git config --local core.sshCommand "/usr/bin/ssh -i ~/.ssh/${GIT_LOCAL_SSH_KEY}"
